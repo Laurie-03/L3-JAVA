@@ -67,6 +67,27 @@ public abstract class Fichier {
         }
     }
 
+    public void lecturePalindromique() throws IOException {
+        BufferedReader lecteur = null;
+        String ligne;
+        ArrayList<String> listeLignes = new ArrayList<String>();
+
+        try {
+            lecteur = new BufferedReader(new FileReader(this.getChemin()));
+        }
+        catch (FileNotFoundException exception) {
+            System.out.println("Erreur !");
+        }
+        while ((ligne = lecteur.readLine()) != null) {
+            listeLignes.add(ligne);
+        }
+        for (int i = listeLignes.size()-1; i >= 0; i--) {
+            String reverse = listeLignes.get(i);      
+            StringBuffer buffer = (new StringBuffer(reverse)).reverse();
+            System.out.println(buffer);
+        }
+    }
+
     public void compareFiles(Fichier F) throws IOException {
         BufferedReader lecteurFichier1 = null;
         BufferedReader lecteurFichier2 = null;
