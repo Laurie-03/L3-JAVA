@@ -17,12 +17,15 @@ public class Pokedeck {
     protected static JLabel typeCardLabel;
     protected static JLabel descriptionCardLabel;
     protected static int index;
+    protected static JList<String> cardsList;
+    protected static JScrollPane listScrollable;
+    protected static ArrayList<String> listCard;
 
     public static void main(String[] args) {  
         pokedeck.addCard(new Card("Pikachu", "60", "Electrik", "Pichu's evolution"));
         pokedeck.addCard(new Card("Pichu", "20", "Electrik", "Pikachu's baby"));    
         /* ----- Swing Zoning ----- */
-            window.setSize(500, 200);
+            window.setSize(500, 400);
             window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
             /* --- Menu Panel --- */
@@ -38,39 +41,55 @@ public class Pokedeck {
             menuPanel.add(removeButton);
             menuPanel.add(previousCardButton);
             menuPanel.add(nextCardButton);
+            menuPanel.setPreferredSize(new Dimension(500, 50));
 
-            /* --- Pokemon Card --- */
+            /* --- Pokemon Card Panel --- */
             JPanel contentPanel = new JPanel(new GridLayout(1, 2, 2, 2));
             JPanel cardPanel = new JPanel(new CardLayout());
             cardPanel.setLayout(new BorderLayout());
             index = 0;
             nameCardLabel = new JLabel(pokedeck.getCard(index).getName());
+            nameCardLabel.setPreferredSize(new Dimension(215, 25));
+            nameCardLabel.setHorizontalAlignment(JLabel.CENTER);
             lifePointsCardLabel = new JLabel(pokedeck.getCard(index).getLifePoints());
+            nameCardLabel.setPreferredSize(new Dimension(107, 25));
             typeCardLabel = new JLabel(pokedeck.getCard(index).getType());
+            nameCardLabel.setPreferredSize(new Dimension(108, 25));
             descriptionCardLabel = new JLabel(pokedeck.getCard(index).getDescription());
-            cardPanel.add(nameCardLabel, BorderLayout.WEST);
-            cardPanel.add(lifePointsCardLabel, BorderLayout.CENTER);
+            descriptionCardLabel.setPreferredSize(new Dimension(215, 200));
+            descriptionCardLabel.setHorizontalAlignment(JLabel.CENTER);
+            cardPanel.add(nameCardLabel, BorderLayout.NORTH);
+            cardPanel.add(lifePointsCardLabel, BorderLayout.WEST);
             cardPanel.add(typeCardLabel, BorderLayout.EAST);
-            cardPanel.add(descriptionCardLabel,BorderLayout.SOUTH);            
+            cardPanel.add(descriptionCardLabel,BorderLayout.SOUTH);
+            cardPanel.setPreferredSize(new Dimension(215, 250));
+            cardPanel.setBackground(Color.BLUE);
+            nameCardLabel.setForeground(Color.YELLOW);
+            lifePointsCardLabel.setForeground(Color.YELLOW);
+            typeCardLabel.setForeground(Color.YELLOW);
+            descriptionCardLabel.setForeground(Color.YELLOW);
 
-            /* --- List Cards --- */
-            // JPanel listCardPanel = new JPanel();
-            // String tabList[];
-            // for (int i=0; i< pokedeck.deck.size(); i++) {
-            //     Card getCard = pokedeck.deck.get(i);
-            //     tabList[i] = getCard.getName();
-            // }
-            // JList listCards = new JList(tabList[0]);
-            // JScrollPane scrollPane = new JScrollPane(listCards);
-            // listCardPanel.add(scrollPane);
+            /* --- List Cards Panel --- */
+            JPanel listCardPanel = new JPanel();
+            listCardPanel.setPreferredSize(new Dimension(215, 250));
+            final ArrayList<String> listCard = new ArrayList<String>();
+            for (int i = 0; i < pokedeck.deck.size(); i++) {
+                Card selectCard = pokedeck.deck.get(i);
+                listCard.add(selectCard.getName());
+            }
+            cardsList = new JList<>(listCard.toArray(new String[0]));
+            listScrollable = new JScrollPane(cardsList);
+            listScrollable.setPreferredSize(new Dimension(215, 250));
+            listCardPanel.add(listScrollable);
 
             /* --- Window Panels --- */
             contentPanel.setLayout(new FlowLayout());
             contentPanel.add(cardPanel);
+            contentPanel.add(listCardPanel);
 
-            window.setLayout(new FlowLayout());        
-            window.add(menuPanel);
-            window.add(contentPanel);
+            window.setLayout(new BorderLayout());        
+            window.add(menuPanel, BorderLayout.NORTH);
+            window.add(contentPanel, BorderLayout.CENTER);
 
             window.setVisible(true);
         /* ----- End Swing Zoning ----- */
